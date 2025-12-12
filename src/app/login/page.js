@@ -10,7 +10,11 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +24,10 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const response = await axios.post(`http://localhost:5000/auth/signin`, data);
+      const response = await axios.post(
+        `http://localhost:5000/auth/login`,
+        data
+      );
 
       if (response.status !== 200 && response.status !== 201) {
         toast.error("Invalid credentials");
@@ -32,7 +39,6 @@ export default function Login() {
       toast.success("Login successful");
 
       router.push("/dashboard");
-
     } catch (error) {
       toast.error("Login failed");
     } finally {
@@ -46,7 +52,6 @@ export default function Login() {
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
           <Input
             label="Email"
             placeholder="Enter your email"
@@ -88,7 +93,6 @@ export default function Login() {
               )}
             </Button>
           </div>
-
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-4">

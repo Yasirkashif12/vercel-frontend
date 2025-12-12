@@ -10,7 +10,12 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 
 export default function Dashboard() {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +50,6 @@ export default function Dashboard() {
       toast.success("Summary generated successfully");
       setResult(response.data);
       reset();
-
     } catch (error) {
       console.error(error);
       toast.error("Error generating summary");
@@ -57,7 +61,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col items-center bg-white px-4 py-12">
       <div className="w-full max-w-4xl space-y-8">
-
         <div className="sticky top-0 z-50 flex justify-end bg-white/80 backdrop-blur-md py-4 -mt-4 mb-4">
           <Link
             href="/historypage"
@@ -72,7 +75,8 @@ export default function Dashboard() {
             AI-Powered Notes Summarizer
           </h1>
           <p className="text-gray-500 text-sm sm:text-base md:text-lg">
-            Paste your meeting notes, messages, or interviews below to generate concise summaries, action items, risks, and next steps.
+            Paste your meeting notes, messages, or interviews below to generate
+            concise summaries, action items, risks, and next steps.
           </p>
         </div>
 
@@ -99,10 +103,13 @@ export default function Dashboard() {
 
         {result && !loading && (
           <div className="mt-12 space-y-12 animate-in fade-in duration-500 px-2 sm:px-0">
-
             <section className="space-y-3">
-              <h2 className="text-sm sm:text-base font-bold uppercase tracking-wider text-gray-400">Summary</h2>
-              <p className="text-gray-900 leading-7 text-sm sm:text-base md:text-lg">{result.summary}</p>
+              <h2 className="text-sm sm:text-base font-bold uppercase tracking-wider text-gray-400">
+                Summary
+              </h2>
+              <p className="text-gray-900 leading-7 text-sm sm:text-base md:text-lg">
+                {result.summary}
+              </p>
             </section>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -112,11 +119,16 @@ export default function Dashboard() {
                 </h3>
                 <ul className="space-y-2 pt-2">
                   {result.actionItems?.map((item, idx) => (
-                    <li key={idx} className="text-sm sm:text-base text-gray-700 leading-snug">
+                    <li
+                      key={idx}
+                      className="text-sm sm:text-base text-gray-700 leading-snug"
+                    >
                       {item}
                     </li>
                   ))}
-                  {!result.actionItems?.length && <li className="text-gray-300 text-sm sm:text-base">None</li>}
+                  {!result.actionItems?.length && (
+                    <li className="text-gray-300 text-sm sm:text-base">None</li>
+                  )}
                 </ul>
               </section>
 
@@ -126,11 +138,16 @@ export default function Dashboard() {
                 </h3>
                 <ul className="space-y-2 pt-2">
                   {result.risks?.map((item, idx) => (
-                    <li key={idx} className="text-sm sm:text-base text-gray-700 leading-snug">
+                    <li
+                      key={idx}
+                      className="text-sm sm:text-base text-gray-700 leading-snug"
+                    >
                       {item}
                     </li>
                   ))}
-                  {!result.risks?.length && <li className="text-gray-300 text-sm sm:text-base">None</li>}
+                  {!result.risks?.length && (
+                    <li className="text-gray-300 text-sm sm:text-base">None</li>
+                  )}
                 </ul>
               </section>
 
@@ -140,11 +157,16 @@ export default function Dashboard() {
                 </h3>
                 <ul className="space-y-2 pt-2">
                   {result.nextSteps?.map((item, idx) => (
-                    <li key={idx} className="text-sm sm:text-base text-gray-700 leading-snug">
+                    <li
+                      key={idx}
+                      className="text-sm sm:text-base text-gray-700 leading-snug"
+                    >
                       {item}
                     </li>
                   ))}
-                  {!result.nextSteps?.length && <li className="text-gray-300 text-sm sm:text-base">None</li>}
+                  {!result.nextSteps?.length && (
+                    <li className="text-gray-300 text-sm sm:text-base">None</li>
+                  )}
                 </ul>
               </section>
             </div>

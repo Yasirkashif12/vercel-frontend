@@ -10,14 +10,21 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function Signup() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`http://localhost:5000/auth/signup`, data);
+      const response = await axios.post(
+        `http://localhost:5000/auth/register`,
+        data
+      );
 
       if (response.status !== 201) {
         toast.error("User not created successfully");
@@ -34,7 +41,6 @@ export default function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md">
-
         <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -75,7 +81,9 @@ export default function Signup() {
           </div>
 
           <div className="flex justify-center">
-            <Button type="submit" className="w-full max-w-xs">Sign Up</Button>
+            <Button type="submit" className="w-full max-w-xs">
+              Sign Up
+            </Button>
           </div>
         </form>
 
