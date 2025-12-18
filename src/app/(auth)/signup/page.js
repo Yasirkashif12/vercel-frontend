@@ -59,7 +59,7 @@ export default function Signup() {
           />
 
           <Input
-            label="Email"
+            label="Email plus"
             placeholder="Enter your email"
             name="email"
             type="email"
