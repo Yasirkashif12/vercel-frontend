@@ -2,14 +2,20 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import Textarea from "@/components/TextAera";
-import Button from "@/components/Button";
-import Loader from "@/components/Loader";
-import axios from "axios";
+import { useRouter } from "next/navigation";
+
+import Textarea from "@/components/ui/TextArea";
+import Button from "@/components/ui/Button";
+import Loader from "@/components/ui/Loader";
 import toast from "react-hot-toast";
 import Link from "next/link";
-
+import useLoading from "@/hooks/useLoading";
+// import api from "@/lib/client.api";
+import LogoutButton from "@/components/layout/LogoutButton";
+import api from "@/lib/serverApi";
 export default function Dashboard() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -17,53 +23,34 @@ export default function Dashboard() {
     formState: { errors },
   } = useForm();
   const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, withLoading } = useLoading();
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      toast.error("You are not logged in!");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const payload = { content: data.notes };
-      const response = await axios.post(
-        `http://localhost:5000/summaries/post`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    await withLoading(async () => {
+      try {
+        const payload = { content: data.notes };
+        const response = await api.post(`/summaries/post`, payload);
+        if (response.status !== 200 && response.status !== 201) {
+          toast.error("Failed to generate summary");
+          return;
         }
-      );
 
-      if (response.status !== 200 && response.status !== 201) {
-        toast.error("Failed to generate summary");
-        setLoading(false);
-        return;
+        toast.success("Summary generated successfully");
+        setResult(response.data);
+        reset();
+      } catch (error) {
+        console.error(error);
+        toast.error("Error generating summary");
       }
-
-      toast.success("Summary generated successfully");
-      setResult(response.data);
-      reset();
-    } catch (error) {
-      console.error(error);
-      toast.error("Error generating summary");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white px-4 py-12">
       <div className="w-full max-w-4xl space-y-8">
-        <div className="sticky top-0 z-50 flex justify-end bg-white/80 backdrop-blur-md py-4 -mt-4 mb-4">
+        <div className="sticky top-0 z-50 flex justify-end items-center gap-4 bg-white/80 backdrop-blur-md py-4 -mt-4 mb-4">
           <Link
-            href="/historypage"
+            href="/summaries/history"
             className="text-sm font-medium text-gray-500 hover:text-black transition-colors"
           >
             view history &rarr;
@@ -94,7 +81,7 @@ export default function Dashboard() {
               className="px-6 py-2 bg-black text-white text-sm sm:text-base md:text-base font-medium hover:bg-gray-800 disabled:opacity-50 rounded-md"
               disabled={loading}
             >
-              {loading ? "Processing..." : "Summarize"}
+              {loading ? <Loader size={20} /> : "Summarize"}
             </Button>
           </div>
         </form>

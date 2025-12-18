@@ -13,6 +13,7 @@ This is the website where people use the AI-Powered Notes Summarizer. Made with 
 ## What You Need First
 
 Before you start:
+
 - **Node.js** version 18 or newer
 - **npm** (it comes with Node.js)
 - The server running on `http://localhost:5000`
@@ -43,33 +44,29 @@ Open [http://localhost:3000](http://localhost:3000) in your web browser. Wheneve
 
 ## Commands to Use
 
-| Command | What It Does |
-|---------|-------------|
-| `npm run dev` | Start it up with automatic updates |
-| `npm run build` | Get it ready to put on the internet |
-| `npm start` | Run the version that's ready for the internet |
+| Command         | What It Does                                  |
+| --------------- | --------------------------------------------- |
+| `npm run dev`   | Start it up with automatic updates            |
+| `npm run build` | Get it ready to put on the internet           |
+| `npm start`     | Run the version that's ready for the internet |
 
 ## How It's Organized
 
 ```
-src/
-├── app/
-│   ├── layout.js              # The main container
-│   ├── page.js                # The opening page (goes to login)
-│   ├── globals.css            # How things look
+src/app/
+├── (auth)/                    # Authentication routes (don't show in URL)
 │   ├── login/
-│   │   └── page.js            # Where you log in
-│   ├── signup/
-│   │   └── page.js            # Where you make an account
-│   ├── dashboard/
-│   │   └── page.js            # Where you make summaries
-│   └── historypage/
-│       └── page.js            # Where you see old summaries
-└── components/
-    ├── Button.js              # Click me buttons
-    ├── InputAera.js           # Type text here
-    ├── TextAera.js            # Type longer text here
-    └── Loader.js              # Loading spinner
+│   │   └── page.js           # Login page → /login
+│   └── signup/
+│       └── page.js           # Sign up page → /signup
+├── summaries/
+│   └── history/
+│       └── page.js           # History page → /summaries/history
+├── dashboard/
+│   └── page.js               # Dashboard → /dashboard
+├── layout.js                 # Main app layout
+├── page.js                   # Home page → /
+└── globals.css               # Global styles
 ```
 
 ## Pages Explained
@@ -77,7 +74,7 @@ src/
 - **Login** (`/login`) - Enter your email and password to get in
 - **Sign Up** (`/signup`) - Make a new account
 - **Dashboard** (`/dashboard`) - Paste text and it gets turned into a summary
-- **History** (`/historypage`) - Look at all the summaries you made before
+- **History** (`/summaries/history`) - Look at all the summaries you made before
 
 ## Things You Should Know
 
@@ -99,15 +96,18 @@ src/
 ## If Something Goes Wrong
 
 **Can't reach the server:**
+
 - Check that the server is running on `http://localhost:5000`
 - Make sure the server has CORS turned on
 
 **Port 3000 is being used:**
+
 ```bash
 npm run dev -- -p 3001
 ```
 
 **It's broken and you need to start over:**
+
 ```bash
 rm -r node_modules .next
 npm install
